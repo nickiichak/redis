@@ -17,10 +17,10 @@ DOCKER_RUNNER += -w $(REPOSITORY_PATH)/
 
 ################ Binary Target ####################
 .PHONY: build
-build: build_client build_serv
+build: build_cli build_serv
 
-.PHONY: build_client
-build_client:
+.PHONY: build_cli
+build_cli:
 	$(DOCKER_RUNNER)$(CLIENT_PATH) $(DOCKER_BUILDER) go build
 
 .PHONY: build_serv
@@ -29,8 +29,8 @@ build_serv:
 
 ############### Docker Target ####################
 .PHONY: run
-run: build_serv
-	$(CURDIR)/$(SERVER_PATH)/serv
+run: docker_build_serv docker_build_cli
+	docker-compose up
 
 .PHONY: docker_build_serv
 docker_build_serv:
